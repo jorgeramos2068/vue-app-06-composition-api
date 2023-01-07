@@ -17,7 +17,7 @@ import {
   onRenderTriggered,
   onUnmounted,
   onUpdated,
-} from '@vue';
+} from 'vue';
 
 export default {
   name: 'About',
