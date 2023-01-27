@@ -6,17 +6,18 @@ const usePokemon = (pokemonId = '1') => {
   const isLoading = ref(false);
   const errorMessage = ref('');
 
-  const searchPokemon = async () => {
+  const searchPokemon = async localPokemonId => {
+    if (!localPokemonId) return;
+
     isLoading.value = true;
     pokemon.value = null;
 
     try {
       const { data } = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon/${pokemonId}`
+        `https://pokeapi.co/api/v2/pokemon/${localPokemonId}`
       );
       pokemon.value = data;
       errorMessage.value = '';
-      console.log(pokemon.value);
     } catch (err) {
       errorMessage.value = 'The data could not be loaded';
     }
@@ -24,12 +25,13 @@ const usePokemon = (pokemonId = '1') => {
     isLoading.value = false;
   };
 
-  searchPokemon();
+  searchPokemon(pokemonId);
 
   return {
     errorMessage,
     isLoading,
     pokemon,
+    searchPokemon,
   };
 };
 
