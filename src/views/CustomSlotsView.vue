@@ -1,12 +1,12 @@
 <template>
   <h1>Slots</h1>
-  <button>Open Modal</button>
-  <modal>
+  <button @click="openModal">Open Modal</button>
+  <modal v-if="isOpen" @on:close="closeModal">
     <template v-slot:body>
       <p>Lorem ipsum</p>
     </template>
     <template v-slot:footer>
-      <button>Close</button>
+      <button @click="closeModal">Close</button>
     </template>
     <template v-slot:header>
       <h2>Modal title (named)</h2>
@@ -15,12 +15,21 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import Modal from '@/components/Modal';
 
 export default {
   components: { Modal },
   name: 'CustomSlotsView',
-  setup() {},
+  setup() {
+    const isOpen = ref(false);
+
+    return {
+      isOpen,
+      openModal: () => (isOpen.value = true),
+      closeModal: () => (isOpen.value = false),
+    };
+  },
 };
 </script>
 
