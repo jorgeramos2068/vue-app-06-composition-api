@@ -34,14 +34,36 @@
       </ul>
     </div>
   </div>
+  <button @click="openModal">Create todo</button>
+  <modal v-if="isOpen" @on:close="closeModal">
+    <template v-slot:header>
+      <h2>Create new Todo</h2>
+    </template>
+    <template v-slot:body>
+      <form @submit.prevent="createTodoLocal(newTodoText)">
+        <div>
+          <input type="text" v-model="newTodoText" />
+        </div>
+        <div><button type="submit">Submit</button></div>
+        <br />
+      </form>
+    </template>
+    <template v-slot:footer>
+      <button @click="closeModal">Close</button>
+    </template>
+  </modal>
 </template>
 
 <script>
+import { ref } from 'vue';
 import useTodos from '@/composables/useTodos';
+import Modal from '@/components/Modal';
 
 export default {
   name: 'TodosVuexView',
+  components: { Modal },
   setup() {
+    const isOpen = ref(false);
     const {
       currentTab,
       allTodos,
@@ -49,15 +71,29 @@ export default {
       pendingTodos,
       getTodosByTab,
       toggleTodo,
+      createTodo,
     } = useTodos();
 
+    const closeModal = () => {
+      isOpen.value = false;
+    };
+
     return {
+      isOpen,
+      openModal: () => (isOpen.value = true),
+      closeModal,
       currentTab,
       allTodos,
       completedTodos,
       pendingTodos,
       getTodosByTab,
       toggleTodo,
+      newTodoText: ref(''),
+      createTodo,
+      createTodoLocal: text => {
+        createTodo(text);
+        closeModal();
+      },
     };
   },
 };
