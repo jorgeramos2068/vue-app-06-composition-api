@@ -22,21 +22,21 @@ export default {
   name: 'Users',
   setup() {
     const {
-      isLoading,
       currentPage,
-      users,
       errorMessage,
-      previousPage,
+      isLoading,
       nextPage,
+      previousPage,
+      users,
     } = useUsers();
 
     return {
-      isLoading,
       currentPage,
-      users,
       errorMessage,
-      previousPage,
+      isLoading,
       nextPage,
+      previousPage,
+      users,
     };
   },
 };
