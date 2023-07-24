@@ -3,10 +3,12 @@
   <h2 v-else>Users</h2>
   <h5 v-if="errorMessage">There was an error while loading the data</h5>
   <div v-if="users.length">
-    <user-list :users="users" v-slot="{ user }">
-      <h4>{{ user.first_name }} {{ user.last_name }}</h4>
-      <p>{{ user.email }}</p>
-    </user-list>
+    <ul>
+      <li v-for="user in users" :key="user.id">
+        <h4>{{ user.first_name }} {{ user.last_name }}</h4>
+        <p>{{ user.email }}</p>
+      </li>
+    </ul>
   </div>
   <button @click="previousPage()">Previous</button> |
   <button @click="nextPage()">Next</button> |
@@ -14,12 +16,10 @@
 </template>
 
 <script>
-import UserList from '@/components/UserList';
 import useUsers from '@/composables/useUsers';
 
 export default {
   name: 'Users',
-  components: { UserList },
   setup() {
     const {
       currentPage,
@@ -52,5 +52,11 @@ div {
   display: flex;
   justify-content: center;
   text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  padding-inline-start: 0;
+  width: 250px;
 }
 </style>
